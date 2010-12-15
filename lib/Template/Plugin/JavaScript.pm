@@ -2,7 +2,7 @@ package Template::Plugin::JavaScript;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 require Template::Plugin;
 use base qw(Template::Plugin);
@@ -21,11 +21,15 @@ sub encode_js {
     local $_ = shift;
     return '' unless defined $_;
 
+    s!\\!\\\\!g;
     s!(['"])!\\$1!g;
     s!\n!\\n!g;
     s!\f!\\f!g;
     s!\r!\\r!g;
     s!\t!\\t!g;
+    s!<!\\x3c!g;
+    s!>!\\x3e!g;
+    s!&!\\x26!g;
     $_;
 }
 
